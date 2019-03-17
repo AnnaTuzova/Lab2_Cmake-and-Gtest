@@ -7,3 +7,5 @@
 extern "C" {
 	__declspec(dllexport) void SelectionSort(int *data, const int kNumOfElements);
 }
+
+void(*DllFunc) (int *data, const int kNumOfElements);

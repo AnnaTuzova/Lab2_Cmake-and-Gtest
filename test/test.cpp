@@ -1,4 +1,5 @@
 #include "../File_lib/File_lib.h"
+#include "../Sort_lib/Sort_lib.h"
 #include <windows.h>
 #include <gtest/gtest.h>
 
@@ -27,7 +28,8 @@ TEST(TestSort, TestRanomdArray)
 		ASSERT_EQ(expected_array[i], actual_array[i]);
 	}
 
-	delete[] actual_array, expected_array;
+	delete[] actual_array;
+	delete[] expected_array;
 }
 
 TEST(TestSort, TestSortedArray)
@@ -48,7 +50,8 @@ TEST(TestSort, TestSortedArray)
 		ASSERT_EQ(expected_array[i], actual_array[i]);
 	}
 
-	delete[] actual_array, expected_array;
+	delete[] actual_array;
+	delete[] expected_array;
 }
 
 
@@ -77,7 +80,8 @@ TEST(TestSort, TestOneMinusOneArray)
 		ASSERT_EQ(expected_array[i], actual_array[i]);
 	}
 
-	delete[] actual_array, expected_array;
+	delete[] actual_array;
+	delete[] expected_array;
 }
 
 TEST(TestSort, TestEmptyArray)
@@ -106,8 +110,9 @@ TEST(TestSort, TestReverseOrderSortedArray)
 		ASSERT_EQ(expected_array[i], actual_array[i]);
 	}
 
-	delete[] actual_array, expected_array;
-}
+	delete[] actual_array;
+	delete[] expected_array;
+} 
 
 int main(int argc, char *argv[])
 {
@@ -129,9 +134,12 @@ void DllSelectionSort(int *data, const int kNumOfElements)
 {
 	HINSTANCE hinstance_lib;
 
-	void(*DllFunc) (int *data, const int kNumOfElements);
+	#ifdef _DEBUG
+		hinstance_lib = LoadLibrary("../Sort_lib/Debug/Sort_lib.dll");
+	#elif NDEBUG
+		hinstance_lib = LoadLibrary("../Sort_lib/Release/Sort_lib.dll");
+	#endif
 
-	hinstance_lib = LoadLibrary("../Sort_lib/Debug/Sort_lib.dll");
 	if (!hinstance_lib)
 	{
 		std::cerr << "Error! Sort_lib.dll is not found. \n";
